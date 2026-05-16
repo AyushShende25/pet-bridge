@@ -1,0 +1,4 @@
+{
+	"*.{js,jsx,ts,tsx}": ["pnpx @biomejs/biome check --write"],
+	"*.{json,css}": ["pnpx @biomejs/biome format --write"]
+}
