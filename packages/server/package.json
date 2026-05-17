@@ -4,18 +4,25 @@
 	"scripts": {
 		"dev": "tsx watch --env-file=.env src/index.ts",
 		"build": "tsdown",
-		"start": "node --env-file=.env dist/index.mjs",
-		"typecheck": "tsc --noEmit"
+		"start": "node --env-file=.env dist/index.js",
+		"typecheck": "tsc --noEmit",
+		"db:push": "psql \"$DATABASE_URL\" -f src/db/schema.sql",
+		"db:drop": "psql \"$DATABASE_URL\" -c \"DROP SCHEMA public CASCADE; CREATE SCHEMA public;\"",
+		"db:reset": "dotenv -e .env -- pnpm run db:drop && dotenv -e .env -- pnpm run db:push"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.19.14",
 		"@hono/zod-validator": "^0.8.0",
+		"better-auth": "^1.6.11",
 		"hono": "^4.12.19",
+		"pg": "^8.20.0",
 		"postgres": "^3.4.9",
 		"zod": "^4.4.3"
 	},
 	"devDependencies": {
 		"@types/node": "^20.11.17",
+		"@types/pg": "^8.20.0",
+		"dotenv-cli": "^11.0.0",
 		"tsdown": "^0.22.0",
 		"tsx": "^4.7.1",
 		"typescript": "^5.8.3"

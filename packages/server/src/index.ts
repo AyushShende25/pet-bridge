@@ -4,13 +4,24 @@ import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { ZodError } from "zod";
-import { config } from "./config.js";
+import { config } from "./config";
+import { auth } from "./lib/auth";
+import { sessionMiddleware } from "./middleware/session";
+import type { AuthType } from "./types";
 
-const app = new Hono().basePath("/api");
+const app = new Hono<{
+	Variables: AuthType;
+}>().basePath("/api");
 
 app.use(logger());
 
 app.use("/*", cors());
+
+app.use("*", sessionMiddleware);
+
+app.on(["POST", "GET"], "/auth/*", (c) => {
+	return auth.handler(c.req.raw);
+});
 
 app.get("/health", (c) => {
 	return c.json({ ok: true }, 200);
