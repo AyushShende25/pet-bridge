@@ -1,3 +1,11 @@
+CREATE EXTENSION IF NOT EXISTS postgis;
+
+CREATE TYPE shelter_verification_status AS ENUM (
+    'PENDING',
+    'VERIFIED',
+    'REJECTED'
+);
+
 create table "user" (
     "id" text not null primary key,
     "name" text not null,
@@ -49,8 +57,39 @@ create table "verification" (
     "updatedAt" timestamptz default CURRENT_TIMESTAMP not null
 );
 
+CREATE TABLE IF NOT EXISTS shelters (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    name TEXT NOT NULL,
+    address TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    registration_number TEXT NOT NULL UNIQUE,
+    user_id TEXT NOT NULL UNIQUE REFERENCES "user" (id) ON DELETE CASCADE,
+    verification_status shelter_verification_status NOT NULL DEFAULT 'PENDING',
+    location GEOGRAPHY (Point, 4326) NOT NULL,
+    deleted_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS 
+$$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER update_shelters_updated_at
+BEFORE UPDATE ON shelters
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at_column();
+
 create index "session_userId_idx" on "session" ("userId");
 
 create index "account_userId_idx" on "account" ("userId");
 
 create index "verification_identifier_idx" on "verification" ("identifier");
+
+CREATE INDEX shelters_location_idx ON shelters USING GIST (location);

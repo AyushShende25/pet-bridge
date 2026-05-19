@@ -1,0 +1,53 @@
+@baseUrl = http://localhost:5000
+
+### login
+POST {{baseUrl}}/api/auth/sign-in/email
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "test1234"
+}
+
+
+### create shelter
+POST {{baseUrl}}/api/shelters
+Content-Type: application/json
+
+{
+  "name":"pet home",
+  "address":"main chowk baner pune",
+  "phone":"7247347747",
+  "registration_number":"876543212",
+  "latitude":18.5642,
+  "longitude":73.7769
+}
+
+### get shelters
+GET {{baseUrl}}/api/shelters?status=VERIFIED
+
+### get shelter
+GET {{baseUrl}}/api/shelters/67ddd7e8-5689-4d9b-8c67-09ce4a7694cd
+
+### update shelter
+PATCH {{baseUrl}}/api/shelters/67ddd7e8-5689-4d9b-8c67-09ce4a7694cd
+Content-Type: application/json
+
+{
+  "name":"happy shelter",
+  "address":"high street balewadi pune",
+  # "phone":"",
+  "latitude":18.582,
+  "longitude":73.769
+}
+
+### delete shelter
+DELETE {{baseUrl}}/api/shelters/67ddd7e8-5689-4d9b-8c67-09ce4a7694cd
+
+### verify shelter
+PATCH {{baseUrl}}/api/shelters/67ddd7e8-5689-4d9b-8c67-09ce4a7694cd/verification
+Content-Type: application/json
+
+{
+  "verification_status":"VERIFIED"
+}

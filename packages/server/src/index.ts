@@ -7,6 +7,7 @@ import { ZodError } from "zod";
 import { config } from "./config";
 import { auth } from "./lib/auth";
 import { sessionMiddleware } from "./middleware/session";
+import shelterRoutes from "./shelters";
 import type { AuthType } from "./types";
 
 const app = new Hono<{
@@ -27,11 +28,14 @@ app.get("/health", (c) => {
 	return c.json({ ok: true }, 200);
 });
 
+app.route("/shelters", shelterRoutes);
+
 app.notFound((c) => {
 	return c.json({ error: "Resource not found" }, 404);
 });
 
 app.onError((error, c) => {
+	console.error(error);
 	if (error instanceof HTTPException) {
 		const cause = error.cause;
 
