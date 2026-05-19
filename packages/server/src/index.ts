@@ -4,6 +4,7 @@ import { cors } from "hono/cors";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { ZodError } from "zod";
+import breedsRoutes from "./breeds";
 import { config } from "./config";
 import { auth } from "./lib/auth";
 import { sessionMiddleware } from "./middleware/session";
@@ -31,6 +32,7 @@ app.get("/health", (c) => {
 
 app.route("/shelters", shelterRoutes);
 app.route("/species", speciesRoutes);
+app.route("/breeds", breedsRoutes);
 
 app.notFound((c) => {
 	return c.json({ error: "Resource not found" }, 404);

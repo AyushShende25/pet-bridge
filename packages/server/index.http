@@ -57,7 +57,7 @@ POST {{baseUrl}}/api/species
 Content-Type: application/json
 
 {
-  "name":"dog"
+  "name":"cat"
 }
 
 ### get all species
@@ -73,3 +73,29 @@ Content-Type: application/json
 
 ### delete species
 DELETE {{baseUrl}}/api/species/8243b65a-76b2-4478-ba4a-79d1821d6240
+
+### create breeds
+POST {{baseUrl}}/api/breeds
+Content-Type: application/json
+
+{
+  "name":"persian cat",
+  "species_id":"c7d785c8-28a9-495e-af91-88801a326d77"
+}
+
+### get all breeds
+GET {{baseUrl}}/api/breeds
+
+### get all breeds by species
+GET {{baseUrl}}/api/breeds/species/c7d785c8-28a9-495e-af91-88801a326d77
+
+### update breeds
+PATCH {{baseUrl}}/api/breeds/f8c41029-acb1-44b5-b5cf-e61324b10f26
+Content-Type: application/json
+
+{
+  "name":"russian cat"
+}
+
+### delete breeds
+DELETE {{baseUrl}}/api/breeds/f8c41029-acb1-44b5-b5cf-e61324b10f26

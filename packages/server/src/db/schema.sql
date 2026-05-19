@@ -77,6 +77,14 @@ CREATE TABLE IF NOT EXISTS species (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS breeds (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    species_id UUID NOT NULL REFERENCES species (id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    CONSTRAINT unique_breed_per_species UNIQUE (species_id, name)
+);
+
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS 
 $$
