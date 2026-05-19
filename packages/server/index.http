@@ -5,7 +5,7 @@ POST {{baseUrl}}/api/auth/sign-in/email
 Content-Type: application/json
 
 {
-  "email": "test@test.com",
+  "email": "admin@test.com",
   "password": "test1234"
 }
 
@@ -51,3 +51,25 @@ Content-Type: application/json
 {
   "verification_status":"VERIFIED"
 }
+
+### create species
+POST {{baseUrl}}/api/species
+Content-Type: application/json
+
+{
+  "name":"dog"
+}
+
+### get all species
+GET {{baseUrl}}/api/species
+
+### update species
+PATCH {{baseUrl}}/api/species/8243b65a-76b2-4478-ba4a-79d1821d6240
+Content-Type: application/json
+
+{
+  "name":"Doggos"
+}
+
+### delete species
+DELETE {{baseUrl}}/api/species/8243b65a-76b2-4478-ba4a-79d1821d6240

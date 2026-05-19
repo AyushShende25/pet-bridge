@@ -8,6 +8,7 @@ import { config } from "./config";
 import { auth } from "./lib/auth";
 import { sessionMiddleware } from "./middleware/session";
 import shelterRoutes from "./shelters";
+import speciesRoutes from "./species";
 import type { AuthType } from "./types";
 
 const app = new Hono<{
@@ -29,6 +30,7 @@ app.get("/health", (c) => {
 });
 
 app.route("/shelters", shelterRoutes);
+app.route("/species", speciesRoutes);
 
 app.notFound((c) => {
 	return c.json({ error: "Resource not found" }, 404);

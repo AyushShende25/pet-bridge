@@ -71,6 +71,12 @@ CREATE TABLE IF NOT EXISTS shelters (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS species (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    name TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS 
 $$

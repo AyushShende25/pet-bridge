@@ -128,7 +128,7 @@ export const update = async (
 		return undefined;
 	}
 
-	const [shelter] = await sql<[Shelter?]>`
+	const [shelter]: [Shelter?] = await sql`
     UPDATE shelters
     SET 
       ${hasFields ? sql(filteredFields) : sql``}
